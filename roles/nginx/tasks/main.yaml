@@ -1,0 +1,14 @@
+---
+- name: Add stable chart repo
+  kubernetes.core.helm_repository:
+    name: stable
+    repo_url: "https://kubernetes.github.io/ingress-nginx"
+- name: Create namespace
+  ansible.builtin.shell: |
+    set -o pipefail && kubectl create namespace ingress-nginx --dry-run=client -o yaml | kubectl apply -f -
+- name: Install
+  kubernetes.core.helm:
+    name: ingresscontrol
+    release_namespace: ingress-nginx
+    chart_ref: ingress-nginx/ingress-nginx
+    values: "{{ lookup('template', 'controller.yaml') | from_yaml }}"

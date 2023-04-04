@@ -1,0 +1,27 @@
+auth:
+  adminUser: user
+  adminPassword: "123"
+
+postgresql:
+  enabled: true
+  auth:
+    postgresPassword: "123"
+    username: bn_keycloak
+    password: "123"
+    database: bitnami_keycloak
+    existingSecret: ""
+  architecture: standalone
+  persistence:
+    enabled: true
+    existingClaim: "data-keycloak-postgresql-0"
+
+ingress:
+  enabled: true
+  ingressClassName: "nginx"
+  servicePort: http
+  hostname: {{keycloak.host.Name}}
+  path: {{keycloak.host.Path}}
+  extraTls:
+   - hosts:
+      - {{keycloak.host.Name}}
+     secretName: {{keycloak.tls.Name}}

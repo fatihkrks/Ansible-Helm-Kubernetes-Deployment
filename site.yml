@@ -1,0 +1,9 @@
+---
+- name: Install Nginx , Nexus Repository and Keycloak
+  hosts: localhost
+  # remote_user: user
+  # become: yes
+  # become_method: sudo
+  roles:
+    - common
+    - keycloak

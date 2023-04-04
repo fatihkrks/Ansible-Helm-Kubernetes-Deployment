@@ -1,0 +1,28 @@
+apiVersion: v1
+data:
+  realm.json: |
+   {
+      "realm": "test-realm",
+      "id": "test-realm",
+      "enabled": "true",
+      "revokeRefreshToken": true,
+      "accessTokenLifespan": 900,
+      "passwordPolicy": "length(8) and digits(1) and specialChars(1)",
+      "roles": {
+        "realm": [
+          {
+            "id": "c9253f52-1960-4c9d-af99-5facca0c0845",
+            "name": "admin",
+            "description": "admin role",
+            "scopeParamRequired": false,
+            "composite": false,
+            "clientRole": false,
+            "containerId": "test-realm"
+          }
+        ]
+      }
+    }
+kind: ConfigMap
+metadata:
+  name: keycloak-realm
+  namespace: keycloak

@@ -1,0 +1,27 @@
+---
+controller:
+  hostNetwork: true
+  kind: DaemonSet
+  service:
+    type: ClusterIP
+    omitClusterIP: true
+  resources:
+   requests:
+     cpu: 400m
+     memory: 400Mi
+   limits:
+     cpu: 2000m
+     memory: 800Mi
+  config:
+    use-forwarded-headers: "true"
+    proxy-body-size: "300m"
+  #   proxy-buffer-size: "128k"
+  #   proxy-buffers: "4 256k"
+  #   proxy-busy-buffers-size: "256k"
+  #   client-header-buffer-size: "64k"
+  #   http2-max-field-size: "16k"
+  #   http2-max-header-size: "128k"
+  #   large-client-header-buffers: "8 64k"
+defaultBackend:
+  service:
+    omitClusterIP: true

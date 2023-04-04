@@ -1,0 +1,25 @@
+
+---
+- name: Add stable chart repo
+  kubernetes.core.helm_repository:
+    name: sonatype
+    repo_url: "https://sonatype.github.io/helm3-charts/"
+
+- name: Create namespace
+  ansible.builtin.shell: |
+    set -o pipefail && kubectl create namespace nexus --dry-run=client -o yaml | kubectl apply -f -
+- name: Delete pv and pvc
+  ansible.builtin.shell: |
+    set -o pipefail && kubectl delete -f roles/nexus/templates/pvc.yaml && kubectl delete -f roles/nexus/templates/pv.yaml
+  ignore_errors: true
+- name: Create pv and pvc
+  ansible.builtin.shell: |
+    set -o pipefail && kubectl create -f roles/nexus/templates/pvc.yaml && kubectl create -f roles/nexus/templates/pv.yaml
+  ignore_errors: true
+
+- name: Install
+  kubernetes.core.helm:
+    name: sonatype-nexus
+    chart_ref: sonatype/nexus-repository-manager
+    values: "{{ lookup('template', 'values.yaml') | from_yaml }}"
+    release_namespace: nexus

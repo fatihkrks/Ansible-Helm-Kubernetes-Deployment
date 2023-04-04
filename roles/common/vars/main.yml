@@ -1,0 +1,18 @@
+---
+
+nexus:
+  host:
+    Name: nexus.galaksiya-k8s.local
+    Path: "/"
+  tls:
+    Name: ingress-nexus-tls
+    CrtName: tls.crt
+    KeyName: tls.key
+keycloak:
+  host:
+    Name: keycloak.galaksiya-k8s.local
+    Path: "/"
+  tls:
+    Name: ingress-keycloak-tls
+    CrtName: tls.crt
+    KeyName: tls.key

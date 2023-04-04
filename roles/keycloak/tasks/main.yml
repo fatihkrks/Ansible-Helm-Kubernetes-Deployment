@@ -1,0 +1,25 @@
+---
+- name: Add stable chart repo
+  kubernetes.core.helm_repository:
+    name: bitnami
+    repo_url: "https://charts.bitnami.com/bitnami"
+
+- name: Create namespace
+  ansible.builtin.shell: |
+    set -o pipefail && kubectl create namespace keycloak --dry-run=client -o yaml | kubectl apply -f -
+
+- name: Delete pv and pvc
+  ansible.builtin.shell: |
+    set -o pipefail && kubectl delete -f roles/keycloak/templates/pvc.yaml && kubectl delete -f roles/keycloak/templates/pv.yaml
+  ignore_errors: true
+- name: Create pv and pvc
+  ansible.builtin.shell: |
+    set -o pipefail && kubectl create -f roles/keycloak/templates/pvc.yaml && kubectl create -f roles/keycloak/templates/pv.yaml
+  ignore_errors: true
+
+- name: Install
+  kubernetes.core.helm:
+    name: keycloak
+    chart_ref: bitnami/keycloak
+    namespace: keycloak
+    values: "{{ lookup('template', 'values.yaml') | from_yaml }}"
