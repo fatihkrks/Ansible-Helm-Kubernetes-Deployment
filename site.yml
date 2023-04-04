@@ -6,4 +6,6 @@
   # become_method: sudo
   roles:
     - common
+    - nginx
+    - nexus
     - keycloak
