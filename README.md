@@ -1,3 +1,6 @@
+## Purpose
+
+Bu uygulama var olan kubernetes clusterına nginx-ingress , nexus , keycloak kurar ve self signed sertifika tanımlayarak client'ların erişebileceği şekilde nexus ve keycloak sayfalarını sunar .
 
 ## Deployment
 
